@@ -4,12 +4,22 @@ import numpy as np
 
 co = cohere.Client('LQLc5N6PhOoUcfrGeEZOVx3fOGIcI1Ttgr0gHp9W')
 
-def classify(string, examples):
+def classify(input, examples, modelSize='large'):
+    """
+    Classifies a given input based on examples
+    Must provide at a list of Examples of length at least 5
+    """
     assert len(examples) >= 5
+    if type(input) is str:
+        input = [input]
     response = co.classify(
-
+        inputs = input,
+        examples = examples,
+        model = modelSize,
     )
     return response
+
+
 
 
 def articleSummarize(prompt, modelSize='large'):
@@ -27,7 +37,7 @@ def articleSummarize(prompt, modelSize='large'):
     response = co.generate(
         model = modelSize,
         prompt = input,
-        max_tokens=245, 
+        max_tokens=200, 
         temperature=0.8, 
         k=0, 
         p=1, 
